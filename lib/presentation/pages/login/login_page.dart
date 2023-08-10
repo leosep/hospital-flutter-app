@@ -1,18 +1,25 @@
-import 'package:flutter/material.dart';
-import 'package:hospital_flutter_app/data/repositories/patient_repository.dart';
-import 'package:hospital_flutter_app/presentation/widgets/patient_list_widget.dart';
-import 'package:hospital_flutter_app/data/api/api_services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+// Import necessary packages and files
+import 'package:flutter/material.dart'; // Flutter framework
+import 'package:hospital_flutter_app/data/repositories/patient_repository.dart'; // PatientRepository class
+import 'package:hospital_flutter_app/presentation/widgets/patient_list_widget.dart'; // PatientListWidget class
+import 'package:hospital_flutter_app/data/api/api_services.dart'; // ApiService class
+import 'package:shared_preferences/shared_preferences.dart'; // For working with local storage
+import 'dart:convert'; // For handling JSON encoding/decoding
 
+// Define a Flutter page for login
 class LoginPage extends StatelessWidget {
+  // Initialize the PatientRepository and ApiService
   final PatientRepository patientRepository;
-  final ApiService apiService = ApiService(); // Instantiate your ApiService
+  final ApiService apiService = ApiService();
+  
+  // Initialize controllers for text fields
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  // Constructor for the LoginPage
   LoginPage({required this.patientRepository}) : super();
 
+  // Function to handle the login process
   Future<void> _login(BuildContext context) async {
     final response = await apiService.post(
       '/login',
@@ -20,17 +27,19 @@ class LoginPage extends StatelessWidget {
     );
 
     if (response.statusCode == 200) {
-      final token = json.decode(response.body)['token'];
+      // If login is successful
+      final token = json.decode(response.body)['token']; // Extract token from the response
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', token);
+      SharedPreferences prefs = await SharedPreferences.getInstance(); // Get an instance of shared preferences
+      await prefs.setString('token', token); // Store the token in shared preferences
 
+      // Navigate to the PatientListWidget after successful login
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => PatientListWidget(patientRepository: patientRepository)),
       );
     } else {
-     // Show login failed dialog
+      // If login fails, show a dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -53,6 +62,7 @@ class LoginPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    // Build the UI for the login page
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
@@ -71,7 +81,7 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () => _login(context),
+              onPressed: () => _login(context), // Trigger the login function when the button is pressed
               child: const Text('Login'),
             ),
           ],

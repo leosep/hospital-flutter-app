@@ -1,15 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:hospital_flutter_app/data/repositories/patient_repository.dart';
-import 'package:hospital_flutter_app/data/models/patient.dart';
-import 'package:hospital_flutter_app/presentation/widgets/edit_patient_widget.dart';
-import 'package:hospital_flutter_app/presentation/widgets/patient_list_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:hospital_flutter_app/presentation/pages/login/login_page.dart';
+// Import necessary packages and files
+import 'package:flutter/material.dart'; // Flutter framework
+import 'package:hospital_flutter_app/data/repositories/patient_repository.dart'; // PatientRepository class
+import 'package:hospital_flutter_app/data/models/patient.dart'; // Patient class
+import 'package:hospital_flutter_app/presentation/widgets/edit_patient_widget.dart'; // EditPatientWidget class
+import 'package:hospital_flutter_app/presentation/widgets/patient_list_widget.dart'; // PatientListWidget class
+import 'package:shared_preferences/shared_preferences.dart'; // For working with local storage
+import 'package:hospital_flutter_app/presentation/pages/login/login_page.dart'; // LoginPage class
 
+// Widget for displaying patient details
 class PatientDetailsWidget extends StatefulWidget {
   final Patient patient;
   final PatientRepository _patientRepository;
 
+  // Constructor to initialize the PatientDetailsWidget with a Patient and a PatientRepository instance
   PatientDetailsWidget({Key? key, required this.patient, required PatientRepository patientRepository})
       : _patientRepository = patientRepository,
         super(key: key);
@@ -19,11 +22,13 @@ class PatientDetailsWidget extends StatefulWidget {
 }
 
 class _PatientDetailsWidgetState extends State<PatientDetailsWidget> {
+  // Function to delete a patient
   void _deletePatient(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
+    final prefs = await SharedPreferences.getInstance(); // Get an instance of shared preferences
+    final token = prefs.getString('token'); // Retrieve the token from shared preferences
 
     if (token == null) {
+      // If token is not available, navigate to the login page
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage(patientRepository: widget._patientRepository)),
@@ -32,16 +37,18 @@ class _PatientDetailsWidgetState extends State<PatientDetailsWidget> {
     }
     
     try {
+      // Delete the patient through the repository
       await widget._patientRepository.deletePatient(widget.patient.id);
 
-      Navigator.pop(context); // Return to previous page
+      Navigator.pop(context); // Return to the previous page
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                PatientListWidget(patientRepository: widget._patientRepository,)), 
+                PatientListWidget(patientRepository: widget._patientRepository)), // Navigate back to the PatientListPage
       );
     } catch (e) {
+      // Show an error dialog if deleting the patient fails
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -62,6 +69,7 @@ class _PatientDetailsWidgetState extends State<PatientDetailsWidget> {
     }
   }
 
+  // Function to show the delete confirmation dialog
   void _showDeleteConfirmation(BuildContext context) {
     showDialog(
       context: context,
@@ -91,6 +99,7 @@ class _PatientDetailsWidgetState extends State<PatientDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Build the UI for displaying patient details
     return Scaffold(
       appBar: AppBar(title: const Text('Patient Details')),
       body: Center(
