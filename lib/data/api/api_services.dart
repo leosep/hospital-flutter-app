@@ -1,11 +1,12 @@
 // Import necessary packages
 import 'package:http/http.dart' as http;
 import 'dart:convert'; // For handling JSON encoding/decoding
-import 'package:shared_preferences/shared_preferences.dart'; // For working with local storage
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hospital_flutter_app/config/config.dart'; // For working with local storage
 
 // Define a class for API service
 class ApiService {
-  final String baseUrl = 'https://localhost:7229/api'; // Base URL for API
+  final String baseUrl = AppConfig.apiUrl; // Base URL for API
 
   // Function to send a POST request
   Future<http.Response> post(String path, dynamic body) async {

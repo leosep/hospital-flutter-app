@@ -5,7 +5,7 @@ import 'package:hospital_flutter_app/data/repositories/patient_repository.dart';
 import 'package:hospital_flutter_app/presentation/widgets/patient_details_widget.dart'; // PatientDetailsWidget class
 import 'package:hospital_flutter_app/presentation/widgets/add_patient_widget.dart'; // AddPatientWidget class
 import 'package:shared_preferences/shared_preferences.dart'; // For working with local storage
-import '../pages/login/login_page.dart'; // LoginPage class
+import 'package:hospital_flutter_app/presentation/pages/login/login_page.dart'; // LoginPage class
 
 // Widget for displaying a list of patients
 class PatientListWidget extends StatefulWidget {

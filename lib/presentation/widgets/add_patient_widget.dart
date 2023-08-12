@@ -6,7 +6,7 @@ import 'package:hospital_flutter_app/data/models/patient.dart'; // Patient class
 import 'package:hospital_flutter_app/utils/phone_input_formatter.dart'; // Custom phone number input formatter
 import 'package:shared_preferences/shared_preferences.dart'; // For working with local storage
 import 'package:hospital_flutter_app/presentation/widgets/patient_list_widget.dart'; // PatientListWidget class
-import '../pages/login/login_page.dart'; // LoginPage class
+import 'package:hospital_flutter_app/presentation/pages/login/login_page.dart'; // LoginPage class
 
 // Widget for adding a new patient
 class AddPatientWidget extends StatefulWidget {
