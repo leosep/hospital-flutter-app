@@ -1,6 +1,6 @@
 # hospital_flutter_app
 
-A new Flutter project.
+Example of a module for a HospitalSystem flutter app.
 
 ## Getting Started
 
